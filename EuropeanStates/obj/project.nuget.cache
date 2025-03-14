@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "dgSpecHash": "fswwmfWTG+FHuFshwF5Q7LdlfOSVlb/8qzNLdKXw8Vnugn14IRFCTadyyDnG9cTmcaeqA+ZvfpPXF06/eJ8tsg==",
+  "success": true,
+  "projectFilePath": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/EuropeanStates.csproj",
+  "expectedPackageFiles": [
+    "/Users/johnbenjamin/.nuget/packages/leafletforblazor/2.2.2.8/leafletforblazor.2.2.2.8.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.authorization/7.0.20/microsoft.aspnetcore.authorization.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.components/7.0.20/microsoft.aspnetcore.components.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.components.analyzers/7.0.20/microsoft.aspnetcore.components.analyzers.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.components.forms/7.0.20/microsoft.aspnetcore.components.forms.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.components.web/7.0.20/microsoft.aspnetcore.components.web.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.metadata/7.0.20/microsoft.aspnetcore.metadata.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.dependencyinjection/7.0.0/microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/7.0.0/microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.localization/7.0.20/microsoft.extensions.localization.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.localization.abstractions/7.0.20/microsoft.extensions.localization.abstractions.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.logging.abstractions/7.0.1/microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.options/7.0.1/microsoft.extensions.options.7.0.1.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/microsoft.jsinterop/7.0.20/microsoft.jsinterop.7.0.20.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/mudblazor/7.16.0/mudblazor.7.16.0.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/system.io.pipelines/7.0.0/system.io.pipelines.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

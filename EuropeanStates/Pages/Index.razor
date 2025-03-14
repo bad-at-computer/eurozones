@@ -1,0 +1,173 @@
+﻿@page "/"
+@using EuropeanStates.Data
+@using EuropeanStates.Services
+
+@inject CountryService CountryService
+
+
+<PageTitle>European States</PageTitle>
+
+<MudText Typo="Typo.h1">
+    Europe: Money, Borders, & Power
+</MudText>
+
+<MudText Typo="Typo.body1">
+    As a new resident of Europe, I wanted to better understand why nations like Denmark are members of the European Union but do not use the Euro for currency.
+    While looking into this more, I learned about other complicated memberships like Schengen, NATO, and the European Economic Area.
+    I decided the best way to visualize this information would be in a dynamic table.
+</MudText>
+
+<MudPaper Class="pa-4 justify-center d-flex my-2" Elevation="0">
+    <RealTimeMap @ref="realTimeMap" Parameters="@parameters" height="460px" width="460px"></RealTimeMap>
+</MudPaper>
+
+<MudSimpleTable Class="my-2" Style="overflow-x: auto;" Elevation="0" Outlined="true" Striped="true">
+    <tbody>
+    <tr>
+        <td>
+            <MudCheckBox @bind-Value="CheckBoxIsEU" Change="@LoadCountries" Label="European Union (EU)"></MudCheckBox>
+        </td>
+        <td>
+            <MudText Typo="Typo.body1">
+                A political and economic union of European countries that collaborate on policies, trade, and governance, with shared institutions and laws.
+            </MudText>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <MudCheckBox @bind-Value="CheckBoxIsEEA" Label="European Economic Area (EEA)"></MudCheckBox>
+        </td>
+        <td>
+            <MudText Typo="Typo.body1">
+                An agreement that extends the EU’s single market to include non-EU countries, allowing free movement of goods, services, capital, and people.
+            </MudText>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <MudCheckBox @bind-Value="CheckBoxIsEurozone" Label="Eurozone"></MudCheckBox>
+        </td>
+        <td>
+            <MudText Typo="Typo.body1">
+                A group of EU countries that have adopted the Euro as their official currency and coordinate monetary policy through the European Central Bank.
+            </MudText>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <MudCheckBox @bind-Value="CheckBoxIsSchengen" Label="Schengen Area"></MudCheckBox>
+        </td>
+        <td>
+            <MudText Typo="Typo.body1">
+                A zone of European countries that have abolished internal border controls, allowing free and unrestricted movement of people across member states.
+            </MudText>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <MudCheckBox @bind-Value="CheckBoxIsNato" Label="NATO"></MudCheckBox>
+        </td>
+        <td>
+            <MudText Typo="Typo.body1">
+                A military alliance of countries from Europe and North America that provides collective defense and security cooperation against threats.
+            </MudText>
+        </td>
+    </tr>
+    </tbody>
+</MudSimpleTable>
+
+<MudTable Items="@Countries" Class="my-2">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Currency</MudTh>
+        <MudTh>Memberships</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Currency">@context.CurrencyAbbreviation</MudTd>
+        <MudTd DataLabel="Memberships">@context.GetMemberships()</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code{
+    
+    RealTimeMap realTimeMap = new();
+    private List<Country> Countries { get; set; }
+
+    private bool _checkBoxIsEU { get; set; } = false;
+    private bool _checkBoxIsEEA { get; set; } = false;
+    private bool _checkBoxIsEurozone { get; set; } = false;
+    private bool _checkBoxIsSchengen { get; set; } = false;
+    private bool _checkBoxIsNato { get; set; } = false;
+    
+    private bool CheckBoxIsEU
+    {
+        get => _checkBoxIsEU;
+        set
+        {
+            _checkBoxIsEU = value;
+            LoadCountries();
+        }
+    }
+
+    private bool CheckBoxIsEEA
+    {
+        get => _checkBoxIsEEA;
+        set
+        {
+            _checkBoxIsEEA = value;
+            LoadCountries();
+        }
+    }
+
+    private bool CheckBoxIsEurozone
+    {
+        get => _checkBoxIsEurozone;
+        set
+        {
+            _checkBoxIsEurozone = value;
+            LoadCountries();
+        }
+    }
+
+    private bool CheckBoxIsSchengen
+    {
+        get => _checkBoxIsSchengen;
+        set
+        {
+            _checkBoxIsSchengen = value;
+            LoadCountries();
+        }
+    }
+
+    private bool CheckBoxIsNato
+    {
+        get => _checkBoxIsNato;
+        set
+        {
+            _checkBoxIsNato = value;
+            LoadCountries();
+        }
+    }
+
+    private void LoadCountries()
+    {
+        Countries = CountryService.FilterCountries(_checkBoxIsEU, _checkBoxIsEEA, _checkBoxIsEurozone, _checkBoxIsSchengen, _checkBoxIsNato);
+    }
+
+    RealTimeMap.LoadParameters parameters = new RealTimeMap.LoadParameters()
+    {
+        location = new()
+        {
+            latitude = 50.87,
+            longitude = 12.08
+        },
+        zoomLevel = 15
+    };
+
+    protected override void OnInitialized()
+    {
+        Countries = CountryService.GetCountries();
+    }
+
+}
