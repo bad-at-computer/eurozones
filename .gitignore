@@ -55,4 +55,8 @@ TestResult.xml
 nunit-*.xml
 =======
 *.geojson
+bin/
+obj/
+*.pdb
+*.dll
 >>>>>>> 3d471bd (Published app)
