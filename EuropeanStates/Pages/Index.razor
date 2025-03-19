@@ -1,8 +1,13 @@
 ﻿@page "/"
+@using System.Text.Json
 @using EuropeanStates.Data
 @using EuropeanStates.Services
+@using GeoJSON.Net.Feature
+@using GeoJSON.Net.Geometry
+@using Newtonsoft.Json
 
 @inject CountryService CountryService
+@inject NavigationManager NavigationManager
 
 
 <PageTitle>European States</PageTitle>
@@ -18,7 +23,11 @@
 </MudText>
 
 <MudPaper Class="pa-4 justify-center d-flex my-2" Elevation="0">
-    <RealTimeMap @ref="realTimeMap" Parameters="@parameters" height="460px" width="460px"></RealTimeMap>
+    <RealTimeMap @ref="_realTimeMap" 
+                 Parameters="@parameters"
+                 OnAfterMapLoaded="OnAfterMapLoaded"
+                 height="460px" 
+                 width="736px"></RealTimeMap>
 </MudPaper>
 
 <MudSimpleTable Class="my-2" Style="overflow-x: auto;" Elevation="0" Outlined="true" Striped="true">
@@ -76,7 +85,7 @@
     </tbody>
 </MudSimpleTable>
 
-<MudTable Items="@Countries" Class="my-2">
+<MudTable Items="@Countries" Class="my-5">
     <HeaderContent>
         <MudTh>Name</MudTh>
         <MudTh>Currency</MudTh>
@@ -89,10 +98,14 @@
     </RowTemplate>
 </MudTable>
 
+<MudPaper>
+    
+</MudPaper>
+
 @code{
     
-    RealTimeMap realTimeMap = new();
-    private List<Country> Countries { get; set; }
+    RealTimeMap _realTimeMap = new();
+    private List<Countries> Countries { get; set; } = new List<Countries>();
 
     private bool _checkBoxIsEU { get; set; } = false;
     private bool _checkBoxIsEEA { get; set; } = false;
@@ -149,25 +162,91 @@
             LoadCountries();
         }
     }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = CountryService.GetCountries();
+        await LoadCountries();
+    }
 
-    private void LoadCountries()
+    public List<List<double[]>> CurrentPolygonCoordinates = new List<List<double[]>>();
+
+    private async Task LoadCountries()
     {
         Countries = CountryService.FilterCountries(_checkBoxIsEU, _checkBoxIsEEA, _checkBoxIsEurozone, _checkBoxIsSchengen, _checkBoxIsNato);
+        await LoadGeoJsonPolygons();
+    }
+
+    private async Task LoadGeoJsonPolygons()
+    {
+        CurrentPolygonCoordinates = new List<List<double[]>>();
+        
+        string geoJsonPath = Path.Combine("wwwroot", "input", "europe_base.json");
+        string geoJsonString = await File.ReadAllTextAsync(geoJsonPath);
+
+        var featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(geoJsonString);
+
+        foreach (var feature in featureCollection.Features)
+        {
+            if (!Countries.Any(c => c.Name.Equals(feature.Properties["NAME"]?.ToString(), StringComparison.OrdinalIgnoreCase)))
+            {
+                continue;
+            }
+            
+            if (feature.Geometry is Polygon polygon)
+            {
+                ExtractPolygonCoordinates(polygon);
+            }
+            else if (feature.Geometry is MultiPolygon multiPolygon)
+            {
+                foreach (var subPolygon in multiPolygon.Coordinates)
+                {
+                    ExtractPolygonCoordinates(subPolygon);
+                }
+            }
+        }
+
+        await _realTimeMap.Geometric.DisplayPolygonsFromArray.deleteAll();
+        await _realTimeMap.Geometric.DisplayPolygonsFromArray.add(CurrentPolygonCoordinates);
+    }
+
+    private void ExtractPolygonCoordinates(Polygon polygon)
+    {
+        if (polygon.Coordinates.Count <= 0) return; // Outer ring only
+        var outerRing = polygon.Coordinates.First();
+        var coordinateList = outerRing.Coordinates
+            .Select(coord => new double[] { coord.Latitude, coord.Longitude })
+            .ToList();
+        CurrentPolygonCoordinates.Add(coordinateList);
     }
 
     RealTimeMap.LoadParameters parameters = new RealTimeMap.LoadParameters()
     {
+        basemap = new RealTimeMap.Basemap() 
+        {
+            basemapLayers = new List<RealTimeMap.BasemapLayer>()
+            {
+                new RealTimeMap.BasemapLayer()
+                {
+                    url = "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
+                    attribution = "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>, &copy; <a href=\"https://carto.com/attributions\">CARTO</a>",
+                    title = "Open Street Map",
+                    detectRetina = true
+                }
+            }
+        },
         location = new()
         {
-            latitude = 50.87,
-            longitude = 12.08
+            latitude = 53.54,
+            longitude = 9.98
         },
-        zoomLevel = 15
+        zoomLevel = 3,
+        
     };
-
-    protected override void OnInitialized()
+    
+    public async Task OnAfterMapLoaded(RealTimeMap.MapEventArgs args)
     {
-        Countries = CountryService.GetCountries();
+        await _realTimeMap.Geometric.DisplayPolygonsFromArray.add(CurrentPolygonCoordinates);
     }
 
 }

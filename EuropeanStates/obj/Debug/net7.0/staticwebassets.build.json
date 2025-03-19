@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "D0IWhTMepTNc1GnBgC8MpJbthCUR3Sd9CEXRlXit624=",
+  "Hash": "9dVSG8Yyp98Mc2+2zJkKeQJqXA20g3Ge/oEmlj5dJx4=",
   "Source": "EuropeanStates",
   "BasePath": "_content/EuropeanStates",
   "Mode": "Default",
@@ -542,6 +542,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.png"
+    },
+    {
+      "Identity": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/wwwroot/input/europe_base.json",
+      "SourceId": "EuropeanStates",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/wwwroot/",
+      "BasePath": "_content/EuropeanStates",
+      "RelativePath": "input/europe_base.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/input/europe_base.json"
     }
   ]
 }

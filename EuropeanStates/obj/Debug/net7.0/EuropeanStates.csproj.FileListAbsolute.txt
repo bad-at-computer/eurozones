@@ -43,3 +43,5 @@
 /Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/bin/Debug/net7.0/Microsoft.Extensions.Options.dll
 /Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/bin/Debug/net7.0/Microsoft.JSInterop.dll
 /Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/bin/Debug/net7.0/MudBlazor.dll
+/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/bin/Debug/net7.0/GeoJSON.Net.dll
+/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/bin/Debug/net7.0/Newtonsoft.Json.dll

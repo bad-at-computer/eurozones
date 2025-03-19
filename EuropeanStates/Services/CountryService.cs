@@ -4,11 +4,11 @@ namespace EuropeanStates.Services;
 
 public class CountryService
 {
-    public List<Country> FilterCountries(bool isEuropeanUnion, bool isEuropeanEconomicArea,
+    public List<Countries> FilterCountries(bool isEuropeanUnion, bool isEuropeanEconomicArea,
         bool isEurozone, bool isSchengenArea, bool isNato)
     {
         var countries = GetCountries();
-        var filteredCountries = new List<Country>();
+        var filteredCountries = new List<Countries>();
         
         // if no checkboxes are selected then show all countries
         if (!isEuropeanUnion && !isEuropeanEconomicArea && !isEurozone && !isSchengenArea && !isNato)
@@ -16,22 +16,23 @@ public class CountryService
             return countries;
         }
 
-        // if a country matches ANY of the checked boxes then add it to the list
+        // if a country INCLUDES ALL the CHECKED boxes then add it to the list
         foreach (var country in countries)
         {
-            if(isEuropeanUnion && country.IsEuropeanUnion) filteredCountries.Add(country);
-            if(isEuropeanEconomicArea && country.IsEuropeanEconomicArea) filteredCountries.Add(country);
-            if(isEurozone && country.IsEurozone) filteredCountries.Add(country);
-            if(isSchengenArea && country.IsSchengenArea) filteredCountries.Add(country);
-            if(isNato && country.IsNato) filteredCountries.Add(country);
+            var addToList = !(isEuropeanUnion && !country.IsEuropeanUnion);
+            if(isEuropeanEconomicArea && !country.IsEuropeanEconomicArea) addToList = false;
+            if (isEurozone && !country.IsEurozone) addToList = false;
+            if(isSchengenArea && !country.IsSchengenArea) addToList = false;
+            if(isNato && !country.IsNato) addToList = false;
+            if(addToList) filteredCountries.Add(country);
         }
         
-        return filteredCountries.OrderByDescending(c => c.Name).ToList();
+        return filteredCountries.OrderBy(c => c.Name).ToList();
     }
     
-    public List<Country> GetCountries() => new()
+    public List<Countries> GetCountries() => new()
     {
-        new Country
+        new Countries
         {
             Name = "Albania",
             Currency = "Lek",
@@ -42,7 +43,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Andorra",
             Currency = "Euro",
@@ -53,7 +54,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Armenia",
             Currency = "Dram",
@@ -64,7 +65,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Austria",
             Currency = "Euro",
@@ -75,7 +76,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Azerbaijan",
             Currency = "Manat",
@@ -86,7 +87,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Belarus",
             Currency = "Ruble",
@@ -97,7 +98,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Belgium",
             Currency = "Euro",
@@ -108,7 +109,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Bosnia and Herzegovina",
             Currency = "Marka",
@@ -119,7 +120,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Bulgaria",
             Currency = "Lev",
@@ -130,7 +131,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Croatia",
             Currency = "Euro",
@@ -142,7 +143,7 @@ public class CountryService
             IsNato = true
         },
 
-        new Country
+        new Countries
         {
             Name = "Cyprus",
             Currency = "Euro",
@@ -153,9 +154,9 @@ public class CountryService
             IsEurozone = true,
             IsNato = false
         },
-        new Country
+        new Countries
         {
-            Name = "Czechia",
+            Name = "Czech Republic",
             Currency = "Koruna",
             CurrencyAbbreviation = "CZK",
             IsEuropeanEconomicArea = true,
@@ -164,7 +165,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Denmark",
             Currency = "Krone",
@@ -175,7 +176,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Estonia",
             Currency = "Euro",
@@ -186,7 +187,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Finland",
             Currency = "Euro",
@@ -197,7 +198,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "France",
             Currency = "Euro",
@@ -208,7 +209,18 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
+        {
+            Name = "Georgia",
+            Currency = "Lari",
+            CurrencyAbbreviation = "GEL",
+            IsEuropeanEconomicArea = false,
+            IsEuropeanUnion = false,
+            IsSchengenArea = false,
+            IsEurozone = false,
+            IsNato = false
+        },
+        new Countries
         {
             Name = "Germany",
             Currency = "Euro",
@@ -219,7 +231,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Greece",
             Currency = "Euro",
@@ -230,7 +242,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Hungary",
             Currency = "Forint",
@@ -241,7 +253,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Iceland",
             Currency = "Króna",
@@ -252,7 +264,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Ireland",
             Currency = "Euro",
@@ -263,7 +275,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = false
         },
-        new Country
+        new Countries
         {
             Name = "Italy",
             Currency = "Euro",
@@ -274,7 +286,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Latvia",
             Currency = "Euro",
@@ -285,7 +297,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Liechtenstein",
             Currency = "Franc",
@@ -296,7 +308,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Lithuania",
             Currency = "Euro",
@@ -307,7 +319,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Luxembourg",
             Currency = "Euro",
@@ -318,7 +330,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Malta",
             Currency = "Euro",
@@ -329,7 +341,18 @@ public class CountryService
             IsEurozone = true,
             IsNato = false
         },
-        new Country
+        new Countries
+        {
+            Name = "Monaco",
+            Currency = "Euro",
+            CurrencyAbbreviation = "EUR",
+            IsEuropeanEconomicArea = false,
+            IsEuropeanUnion = false,
+            IsSchengenArea = false,
+            IsEurozone = false,
+            IsNato = false
+        },
+        new Countries
         {
             Name = "Montenegro",
             Currency = "Euro",
@@ -340,7 +363,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Netherlands",
             Currency = "Euro",
@@ -351,9 +374,9 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
-            Name = "North Macedonia",
+            Name = "The former Yugoslav Republic of Macedonia", // TODO check this
             Currency = "Denar",
             CurrencyAbbreviation = "MKD",
             IsEuropeanEconomicArea = false,
@@ -362,7 +385,18 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
+        {
+            Name = "Republic of Moldova",
+            Currency = "Leu",
+            CurrencyAbbreviation = "MDL",
+            IsEuropeanEconomicArea = false,
+            IsEuropeanUnion = false,
+            IsSchengenArea = false,
+            IsEurozone = false,
+            IsNato = false
+        },
+        new Countries
         {
             Name = "Norway",
             Currency = "Krone",
@@ -373,7 +407,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Poland",
             Currency = "Zloty",
@@ -384,7 +418,7 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Portugal",
             Currency = "Euro",
@@ -395,7 +429,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Romania",
             Currency = "Leu",
@@ -406,7 +440,29 @@ public class CountryService
             IsEurozone = false,
             IsNato = true
         },
-        new Country
+        new Countries
+        {
+            Name = "Russia",
+            Currency = "Ruble",
+            CurrencyAbbreviation = "RUB",
+            IsEuropeanEconomicArea = false,
+            IsEuropeanUnion = false,
+            IsSchengenArea = false,
+            IsEurozone = false,
+            IsNato = false
+        },
+        new Countries
+        {
+            Name = "Serbia",
+            Currency = "Dinar",
+            CurrencyAbbreviation = "RSD",
+            IsEuropeanEconomicArea = false,
+            IsEuropeanUnion = false,
+            IsSchengenArea = false,
+            IsEurozone = false,
+            IsNato = false
+        },
+        new Countries
         {
             Name = "Slovakia",
             Currency = "Euro",
@@ -417,7 +473,7 @@ public class CountryService
             IsEurozone = true,
             IsNato = true
         },
-        new Country
+        new Countries
         {
             Name = "Slovenia",
             Currency = "Euro",
@@ -429,7 +485,7 @@ public class CountryService
             IsNato = true
         },
 
-        new Country
+        new Countries
         {
             Name = "Spain",
             Currency = "Euro",
@@ -441,7 +497,7 @@ public class CountryService
             IsNato = true
         },
 
-        new Country
+        new Countries
         {
             Name = "Sweden",
             Currency = "Krona",
@@ -453,7 +509,7 @@ public class CountryService
             IsNato = true
         },
 
-        new Country
+        new Countries
         {
             Name = "Switzerland",
             Currency = "Franc",
@@ -465,7 +521,7 @@ public class CountryService
             IsNato = false
         },
 
-        new Country
+        new Countries
         {
             Name = "Turkey",
             Currency = "Lira",
@@ -477,7 +533,7 @@ public class CountryService
             IsNato = true
         },
 
-        new Country
+        new Countries
         {
             Name = "Ukraine",
             Currency = "Hryvnia",
@@ -489,7 +545,7 @@ public class CountryService
             IsNato = false
         },
 
-        new Country
+        new Countries
         {
             Name = "United Kingdom",
             Currency = "Pound Sterling",

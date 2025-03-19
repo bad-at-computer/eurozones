@@ -39,6 +39,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "GeoJSON.Net": {
+              "target": "Package",
+              "version": "[1.4.1, )"
+            },
             "LeafletForBlazor": {
               "target": "Package",
               "version": "[2.2.2.8, )"

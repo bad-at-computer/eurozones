@@ -3,7 +3,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace EuropeanStates.Data;
 
-public class Country
+public class Countries
 {
     public string Name = string.Empty;
     public string Currency = string.Empty;
@@ -13,6 +13,9 @@ public class Country
     public bool IsSchengenArea = false;
     public bool IsEurozone = false;
     public bool IsNato = false;
+    // Council of Europe
+    // United Nations
+    // European Free Trade Association (EFTA) incl. Iceland, Liechtenstein, Norway, Switzerland
 
 
     public string GetMemberships()

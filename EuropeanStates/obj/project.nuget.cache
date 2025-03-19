@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "fswwmfWTG+FHuFshwF5Q7LdlfOSVlb/8qzNLdKXw8Vnugn14IRFCTadyyDnG9cTmcaeqA+ZvfpPXF06/eJ8tsg==",
+  "dgSpecHash": "FA2eMhLpogo/7itpKcYP/riSHFn4hd8b0OPaan7+TaUB7SnbHtc6XLD05Xc5wGx5pFK6P0+j0qtKcy+Y+5L7cw==",
   "success": true,
   "projectFilePath": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/EuropeanStates.csproj",
   "expectedPackageFiles": [
+    "/Users/johnbenjamin/.nuget/packages/geojson.net/1.4.1/geojson.net.1.4.1.nupkg.sha512",
     "/Users/johnbenjamin/.nuget/packages/leafletforblazor/2.2.2.8/leafletforblazor.2.2.2.8.nupkg.sha512",
     "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.authorization/7.0.20/microsoft.aspnetcore.authorization.7.0.20.nupkg.sha512",
     "/Users/johnbenjamin/.nuget/packages/microsoft.aspnetcore.components/7.0.20/microsoft.aspnetcore.components.7.0.20.nupkg.sha512",
@@ -20,6 +21,7 @@
     "/Users/johnbenjamin/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "/Users/johnbenjamin/.nuget/packages/microsoft.jsinterop/7.0.20/microsoft.jsinterop.7.0.20.nupkg.sha512",
     "/Users/johnbenjamin/.nuget/packages/mudblazor/7.16.0/mudblazor.7.16.0.nupkg.sha512",
+    "/Users/johnbenjamin/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/Users/johnbenjamin/.nuget/packages/system.io.pipelines/7.0.0/system.io.pipelines.7.0.0.nupkg.sha512"
   ],
   "logs": []
