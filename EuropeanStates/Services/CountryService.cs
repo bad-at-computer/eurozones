@@ -376,7 +376,7 @@ public class CountryService
         },
         new Countries
         {
-            Name = "The former Yugoslav Republic of Macedonia", // TODO check this
+            Name = "The former Yugoslav Republic of Macedonia",
             Currency = "Denar",
             CurrencyAbbreviation = "MKD",
             IsEuropeanEconomicArea = false,
