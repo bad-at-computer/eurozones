@@ -5,12 +5,20 @@
       "PackagePath": "staticwebassets/EuropeanStates.bundle.scp.css"
     },
     {
+      "Id": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
       "Id": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/wwwroot/favicon.png",
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
       "Id": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/wwwroot/input/europe_base.json",
       "PackagePath": "staticwebassets/input/europe_base.json"
+    },
+    {
+      "Id": "/Users/johnbenjamin/Projects/EuropeanStates/EuropeanStates/EuropeanStates/wwwroot/logo.png",
+      "PackagePath": "staticwebassets/logo.png"
     },
     {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.EuropeanStates.Microsoft.AspNetCore.StaticWebAssets.props",

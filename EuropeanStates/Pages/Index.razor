@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using System.Text.Json
 @using EuropeanStates.Data
 @using EuropeanStates.Services
 @using GeoJSON.Net.Feature
@@ -7,182 +6,182 @@
 @using Newtonsoft.Json
 
 @inject CountryService CountryService
-@inject NavigationManager NavigationManager
+@inject StringsService StringsService
 
+<PageTitle>@StringsService.TitleEurozones</PageTitle>
 
-<PageTitle>European States</PageTitle>
-
-<MudText Typo="Typo.h1">
-    Europe: Money, Borders, & Power
-</MudText>
-
-<MudText Typo="Typo.body1">
-    As a new resident of Europe, I wanted to better understand why nations like Denmark are members of the European Union but do not use the Euro for currency.
-    While looking into this more, I learned about other complicated memberships like Schengen, NATO, and the European Economic Area.
-    I decided the best way to visualize this information would be in a dynamic table.
-</MudText>
-
-<MudPaper Class="pa-4 justify-center d-flex my-2" Elevation="0">
-    <RealTimeMap @ref="_realTimeMap" 
-                 Parameters="@parameters"
-                 OnAfterMapLoaded="OnAfterMapLoaded"
-                 height="460px" 
-                 width="736px"></RealTimeMap>
-</MudPaper>
-
-<MudSimpleTable Class="my-2" Style="overflow-x: auto;" Elevation="0" Outlined="true" Striped="true">
-    <tbody>
-    <tr>
-        <td>
-            <MudCheckBox @bind-Value="CheckBoxIsEU" Change="@LoadCountries" Label="European Union (EU)"></MudCheckBox>
-        </td>
-        <td>
-            <MudText Typo="Typo.body1">
-                A political and economic union of European countries that collaborate on policies, trade, and governance, with shared institutions and laws.
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12">
+        <MudPaper Class="pa-4 mt-2">
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1" Class="mb-2">
+                <MudText Typo="Typo.h3">Eurozones</MudText>
+                <MudSpacer/>
+                <MudLink Href="https://badatcomputer.net/eurozones" Target="_blank">
+                    <MudAvatar Rounded="true" Size="Size.Medium">
+                        <MudImage Src="logo.png"/>
+                    </MudAvatar>
+                </MudLink>
+            </MudStack>
+            <MudText Typo="Typo.h6">
+                A visual guide to Europe's money, borders, and power structures.
             </MudText>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <MudCheckBox @bind-Value="CheckBoxIsEEA" Label="European Economic Area (EEA)"></MudCheckBox>
-        </td>
-        <td>
-            <MudText Typo="Typo.body1">
-                An agreement that extends the EU’s single market to include non-EU countries, allowing free movement of goods, services, capital, and people.
-            </MudText>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <MudCheckBox @bind-Value="CheckBoxIsEurozone" Label="Eurozone"></MudCheckBox>
-        </td>
-        <td>
-            <MudText Typo="Typo.body1">
-                A group of EU countries that have adopted the Euro as their official currency and coordinate monetary policy through the European Central Bank.
-            </MudText>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <MudCheckBox @bind-Value="CheckBoxIsSchengen" Label="Schengen Area"></MudCheckBox>
-        </td>
-        <td>
-            <MudText Typo="Typo.body1">
-                A zone of European countries that have abolished internal border controls, allowing free and unrestricted movement of people across member states.
-            </MudText>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <MudCheckBox @bind-Value="CheckBoxIsNato" Label="NATO"></MudCheckBox>
-        </td>
-        <td>
-            <MudText Typo="Typo.body1">
-                A military alliance of countries from Europe and North America that provides collective defense and security cooperation against threats.
-            </MudText>
-        </td>
-    </tr>
-    </tbody>
-</MudSimpleTable>
+            <MudText Typo="Typo.body1">@StringsService.AppDescription</MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <RealTimeMap @ref="_realTimeMap"
+                     Parameters="@_parameters"
+                     OnAfterMapLoaded="OnAfterMapLoaded"
+                     height="400px"
+                     width="calc(100vw - 3rem)">
+        </RealTimeMap>
+        @if (LoadingMap)
+        {
+            <MudProgressLinear Indeterminate="true"/>
+        }
+        else
+        {
+            <MudProgressLinear Value="100"/>
+        }
+    </MudItem>
+    <MudItem xs="12">
+        <MudPaper Class="pa-2 ma-0">
+            <MudGrid Justify="Justify.FlexStart">
+                <MembershipCheckbox LabelContent="@StringsService.LabelEU"
+                                    InformationContent="@StringsService.DescriptionEU"
+                                    IsDisabled="LoadingMap"
+                                    ToggleCheckboxCallback="CheckBoxIsEu"/>
+                <MembershipCheckbox LabelContent="@StringsService.LabelEEA"
+                                    InformationContent="@StringsService.DescriptionEEA"
+                                    IsDisabled="LoadingMap"
+                                    ToggleCheckboxCallback="CheckBoxIsEea"/>
+                <MembershipCheckbox LabelContent="@StringsService.LabelEurozone"
+                                    IsDisabled="LoadingMap"
+                                    InformationContent="@StringsService.DescriptionEurozone"
+                                    ToggleCheckboxCallback="CheckBoxIsEurozone"/>
+                <MembershipCheckbox LabelContent="@StringsService.LabelSchengen"
+                                    IsDisabled="LoadingMap"
+                                    InformationContent="@StringsService.DescriptionSchengen"
+                                    ToggleCheckboxCallback="CheckBoxIsSchengen"/>
+                <MembershipCheckbox LabelContent="@StringsService.LabelNATO"
+                                    IsDisabled="LoadingMap"
+                                    InformationContent="@StringsService.DescriptionNATO"
+                                    ToggleCheckboxCallback="CheckBoxIsNato"/>
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudTable Items="@Countries" Class="my-4">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Member Nations</MudText>
+                <MudSpacer/>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Currency</MudTh>
+                <MudTh>Memberships</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Currency">@context.CurrencyAbbreviation</MudTd>
+                <MudTd DataLabel="Memberships">@context.GetMemberships()</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudItem>
+    <MudItem xs="12" Class="footer pa-4 ma-0 d-flex flex-wrap justify-center align-center">
+        <MudText Typo="Typo.body2" Class="mx-2 my-1 text-center">
+            © 2021 – 2025
+        </MudText>
+        <MudText Typo="Typo.body2" Class="mx-2 my-1 text-center">
+            <a href="https://badatcomputer.net/" target="_blank">badatcomputer.net</a>
+        </MudText>
+        <MudText Typo="Typo.body2" Class="mx-2 my-1 text-center">
+            <a href="https://badatcomputer.net/#contact-home" target="_blank">Contact</a>
+        </MudText>
+    </MudItem>
+</MudGrid>
 
-<MudTable Items="@Countries" Class="my-5">
-    <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Currency</MudTh>
-        <MudTh>Memberships</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Currency">@context.CurrencyAbbreviation</MudTd>
-        <MudTd DataLabel="Memberships">@context.GetMemberships()</MudTd>
-    </RowTemplate>
-</MudTable>
-
-<MudPaper>
-    
-</MudPaper>
 
 @code{
-    
+
     RealTimeMap _realTimeMap = new();
     private List<Countries> Countries { get; set; } = new List<Countries>();
+    private bool LoadingMap { get; set; }
 
-    private bool _checkBoxIsEU { get; set; } = false;
-    private bool _checkBoxIsEEA { get; set; } = false;
+    private bool _checkBoxIsEu { get; set; } = false;
+    private bool _checkBoxIsEea { get; set; } = false;
     private bool _checkBoxIsEurozone { get; set; } = false;
     private bool _checkBoxIsSchengen { get; set; } = false;
     private bool _checkBoxIsNato { get; set; } = false;
-    
-    private bool CheckBoxIsEU
+
+
+    private async Task<bool> CheckBoxIsEu(bool checkBox)
     {
-        get => _checkBoxIsEU;
-        set
-        {
-            _checkBoxIsEU = value;
-            LoadCountries();
-        }
+        LoadingMap = true;
+        _checkBoxIsEu = checkBox;
+        await LoadCountries();
+        LoadingMap = false;
+        return checkBox;
     }
 
-    private bool CheckBoxIsEEA
+    private async Task<bool> CheckBoxIsEea(bool checkBox)
     {
-        get => _checkBoxIsEEA;
-        set
-        {
-            _checkBoxIsEEA = value;
-            LoadCountries();
-        }
+        LoadingMap = true;
+        _checkBoxIsEea = checkBox;
+        await LoadCountries();
+        LoadingMap = false;
+        return checkBox;
     }
 
-    private bool CheckBoxIsEurozone
+    private async Task<bool> CheckBoxIsEurozone(bool checkBox)
     {
-        get => _checkBoxIsEurozone;
-        set
-        {
-            _checkBoxIsEurozone = value;
-            LoadCountries();
-        }
+        LoadingMap = true;
+        _checkBoxIsEurozone = checkBox;
+        await LoadCountries();
+        LoadingMap = false;
+        return checkBox;
     }
 
-    private bool CheckBoxIsSchengen
+    private async Task<bool> CheckBoxIsSchengen(bool checkBox)
     {
-        get => _checkBoxIsSchengen;
-        set
-        {
-            _checkBoxIsSchengen = value;
-            LoadCountries();
-        }
+        LoadingMap = true;
+        _checkBoxIsSchengen = checkBox;
+        await LoadCountries();
+        LoadingMap = false;
+        return checkBox;
     }
 
-    private bool CheckBoxIsNato
+    private async Task<bool> CheckBoxIsNato(bool checkBox)
     {
-        get => _checkBoxIsNato;
-        set
-        {
-            _checkBoxIsNato = value;
-            LoadCountries();
-        }
+        LoadingMap = true;
+        _checkBoxIsNato = checkBox;
+        await LoadCountries();
+        LoadingMap = false;
+        return checkBox;
     }
-    
+
     protected override async Task OnInitializedAsync()
     {
+        LoadingMap = true;
         Countries = CountryService.GetCountries();
         await LoadCountries();
+        LoadingMap = false;
     }
 
-    public List<List<double[]>> CurrentPolygonCoordinates = new List<List<double[]>>();
+    private List<List<double[]>> CurrentPolygonCoordinates { get; set; } = new List<List<double[]>>();
 
     private async Task LoadCountries()
     {
-        Countries = CountryService.FilterCountries(_checkBoxIsEU, _checkBoxIsEEA, _checkBoxIsEurozone, _checkBoxIsSchengen, _checkBoxIsNato);
+        Countries = CountryService.FilterCountries(_checkBoxIsEu, _checkBoxIsEea, _checkBoxIsEurozone, _checkBoxIsSchengen, _checkBoxIsNato);
         await LoadGeoJsonPolygons();
     }
 
     private async Task LoadGeoJsonPolygons()
     {
         CurrentPolygonCoordinates = new List<List<double[]>>();
-        
-        string geoJsonPath = Path.Combine("wwwroot", "input", "europe_base.json");
-        string geoJsonString = await File.ReadAllTextAsync(geoJsonPath);
+
+        var geoJsonPath = Path.Combine("wwwroot", "input", "europe_base.json");
+        var geoJsonString = await File.ReadAllTextAsync(geoJsonPath);
 
         var featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(geoJsonString);
 
@@ -192,16 +191,20 @@
             {
                 continue;
             }
-            
-            if (feature.Geometry is Polygon polygon)
+
+            switch (feature.Geometry)
             {
-                ExtractPolygonCoordinates(polygon);
-            }
-            else if (feature.Geometry is MultiPolygon multiPolygon)
-            {
-                foreach (var subPolygon in multiPolygon.Coordinates)
+                case Polygon polygon:
+                    ExtractPolygonCoordinates(polygon);
+                    break;
+                case MultiPolygon multiPolygon:
                 {
-                    ExtractPolygonCoordinates(subPolygon);
+                    foreach (var subPolygon in multiPolygon.Coordinates)
+                    {
+                        ExtractPolygonCoordinates(subPolygon);
+                    }
+
+                    break;
                 }
             }
         }
@@ -220,9 +223,9 @@
         CurrentPolygonCoordinates.Add(coordinateList);
     }
 
-    RealTimeMap.LoadParameters parameters = new RealTimeMap.LoadParameters()
+    private RealTimeMap.LoadParameters _parameters = new RealTimeMap.LoadParameters()
     {
-        basemap = new RealTimeMap.Basemap() 
+        basemap = new RealTimeMap.Basemap()
         {
             basemapLayers = new List<RealTimeMap.BasemapLayer>()
             {
@@ -241,9 +244,8 @@
             longitude = 9.98
         },
         zoomLevel = 3,
-        
     };
-    
+
     public async Task OnAfterMapLoaded(RealTimeMap.MapEventArgs args)
     {
         await _realTimeMap.Geometric.DisplayPolygonsFromArray.add(CurrentPolygonCoordinates);

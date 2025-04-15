@@ -1,0 +1,58 @@
+<MudItem xs="12" lg="2">
+    <MudCheckBox T="bool" 
+                 Value="IsChecked" 
+                 ValueChanged="@(async value => await ToggleCheckbox(value))" 
+                 Label="@LabelContent"
+                 Disabled="IsDisabled"
+                 Class="mw-100">
+        <MudIconButton Icon="fas fa-info-circle"
+                       Color="Color.Default"
+                       OnClick="ToggleOpen"
+                       aria-label="show information"/>
+    </MudCheckBox>
+    
+    @if (OpenPopover)
+    {
+        <div class="overlay" @onclick="ClosePopover"></div>
+    }
+    <MudPopover Open="@OpenPopover" Fixed="true" Class="px-4 pt-4">
+        <div class="d-flex flex-column">
+            <MudText>@InformationContent</MudText>
+            <MudButton OnClick="@ToggleOpen" Class="ml-auto mr-n3 mb-1" Color="Color.Error">Close</MudButton>
+        </div>
+    </MudPopover>
+</MudItem>
+
+<style>
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: transparent;
+        z-index: 1000;
+    }
+</style>
+
+@code {
+    [Parameter] public bool IsDisabled { get; set; }
+    [Parameter] public string InformationContent { get; set; } = string.Empty;
+    [Parameter] public string LabelContent { get; set; } = string.Empty;
+    [Parameter] public EventCallback<bool> ToggleCheckboxCallback { get; set; }
+    private bool IsChecked { get; set; }
+    private bool OpenPopover { get; set; }
+    private void ToggleOpen() => OpenPopover = !OpenPopover;
+
+    private void ClosePopover()
+    {
+        OpenPopover = false;
+    }
+
+    private async Task ToggleCheckbox(bool value)
+    {
+        IsChecked = value;
+        await ToggleCheckboxCallback.InvokeAsync(IsChecked);
+    }
+    
+}
